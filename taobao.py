@@ -18,10 +18,10 @@ ws=w.add_sheet('sheet 1', cell_overwrite_ok=True)
 
 row=1
 
-ws.write(0,0,"评论")
-ws.write(0,1,"时间")
-ws.write(0,2,"购买的产品")
-ws.write(0,3,"用户")
+ws.write(0,0,"comment")
+ws.write(0,1,"time")
+ws.write(0,2,"product")
+ws.write(0,3,"user")
 def write_json_to_xls(dat):
     global row
     for comment in dat["comments"]:
