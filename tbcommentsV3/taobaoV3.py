@@ -16,12 +16,10 @@ style.font=font
 #create a table
 w=xlwt.Workbook(encoding='utf-8')
 ws=w.add_sheet('sheet 1', cell_overwrite_ok=True)
-
 row=1
-
 ws.write(0,0,"Comment")
-ws.write(0,1,"time")
-ws.write(0,2,"product")
+ws.write(0,1,"Time")
+ws.write(0,2,"Product")
 ws.write(0,3,"User")
 def write_json_to_xls(dat):
     global row
@@ -31,19 +29,17 @@ def write_json_to_xls(dat):
         ws.write(row,2,comment['auction']["sku"])
         ws.write(row,3,comment['user']["nick"])
         row+=1
-
-id=''
-        
+  
 def  go():
     print(xls_text.get())
     root.quit()
     root.destroy()
     
 root=tk.Tk()
-root.title("input id")
+root.title("GetComments")
 root.geometry('300x100')
 xls_text=tk.StringVar()
-info=tk.Label(root, text='input')
+info=tk.Label(root, text='Enter ID')
 info.pack()
 xls = tk.Entry(root, textvariable=xls_text)
 xls_text.set(" ")
@@ -62,18 +58,17 @@ page = 0
 while row<max:
     try:
         page = page + 1
-        print(url)
         json_req = requests.get(url[:-1]+str(page))       
         dat = json.loads(json_req.text.strip().strip('()'))
         write_json_to_xls(dat)
         print('We have got',row-1,'comments!')
+    except TypeError as e:
+        print('Whoops,', "Taobao only open 251 pages of comments.")
+        break
     except Exception as e:
         print('failed！',e)
         break
-    except TypeError as e:
-        print('failed,', e, ".Sorry, Taobao only open 251 pages of comments")
-        break
             
-print("Done, check your comments.xls")                        
+print("Done, check your comments.xls in your current folder!")                        
 w.save('comments.xls')
 input ("Please Enter to exit:")
